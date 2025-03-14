@@ -37,4 +37,5 @@ out/
 .vscode/
 
 ##env
-.env
+.env.properties
+resources/dding/auth/config/.env.properties
