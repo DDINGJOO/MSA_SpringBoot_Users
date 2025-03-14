@@ -1,1 +1,5 @@
 rootProject.name = 'msa_user'
+
+
+include 'service'
+include 'service:auth'
