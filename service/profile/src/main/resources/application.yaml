@@ -1,0 +1,21 @@
+server:
+  port: 9101
+
+spring:
+  config:
+    additional-location: file:./.env.properties
+
+
+  application:
+    name: dding-user-auth-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/auth
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none

@@ -3,6 +3,9 @@ rootProject.name = 'msa_user'
 
 include 'service'
 include 'service:auth'
+include 'service:profile'
+
+
 include 'public'
 include 'public:pk'
 include 'public:encoder'
