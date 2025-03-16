@@ -1,0 +1,23 @@
+package dding.profile.dto.response;
+
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProfileResponse {
+    private String userId;
+    private String nickname;
+    private String email;
+    private String phone;
+    private Long addressId;
+    private String profileImageUrl;
+    private String preferred1;
+    private String preferred2;
+    private String introduction;
+    private Integer totalPoint;
+    private Integer userLevel;
+}
