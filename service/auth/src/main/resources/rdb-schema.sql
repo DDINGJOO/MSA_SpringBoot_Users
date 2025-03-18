@@ -1,5 +1,5 @@
 CREATE TABLE auth (
-                      id VARCHAR(255) PRIMARY KEY,
+                      id VARCHAR(26) PRIMARY KEY,
                       login_id VARCHAR(100) NOT NULL UNIQUE,
                       password VARCHAR(255) NOT NULL,
                       nickname VARCHAR(100) NOT NULL,
