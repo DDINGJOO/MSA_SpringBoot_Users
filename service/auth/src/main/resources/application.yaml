@@ -1,5 +1,6 @@
 server:
   port: 9100
+  address: 0.0.0.0
 spring:
   config:
     additional-location: file:./.env.properties

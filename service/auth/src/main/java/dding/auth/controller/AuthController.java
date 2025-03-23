@@ -87,6 +87,9 @@ public class AuthController {
         result.put("accessToken", accessToken);
         result.put("refreshToken", refreshToken);
         result.put("expiresIn", accessTokenExpireMs / 1000); // 초 단위
+        result.put("loginId", user.getLoginId());
+        result.put("nickname", user.getNickname());
+        result.put("role", user.getRole().name());
 
         return ResponseEntity.ok(Map.of(
                 "success", true,

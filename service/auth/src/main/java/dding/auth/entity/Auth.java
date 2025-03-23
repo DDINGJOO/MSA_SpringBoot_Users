@@ -30,5 +30,4 @@ public class Auth {
     private String provider;
     private String providerId;
 
-
 }
