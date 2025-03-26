@@ -3,6 +3,7 @@ package dding.profile.controller;
 import dding.profile.dto.request.ProfileRequest;
 import dding.profile.dto.request.ProfileUpdateRequest;
 import dding.profile.dto.response.ProfileResponse;
+import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
 
     private final ProfileService profileService;
+    @GetMapping("simple/{userId}")
+    public ResponseEntity<ProfileSimpleResponse> getSimpleProfile(@PathVariable String userId) {
+        ProfileSimpleResponse response = profileService.getSimpleProfile(userId);
+        return ResponseEntity.ok(response);
+    }
+
 
     //  프로필 생성
     @PostMapping
@@ -28,6 +35,7 @@ public class ProfileController {
         ProfileResponse response = profileService.getProfile(userId);
         return ResponseEntity.ok(response);
     }
+
 
     // 프로필 수정
     @PutMapping("/{userId}")

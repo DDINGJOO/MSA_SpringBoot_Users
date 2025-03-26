@@ -4,6 +4,7 @@ package dding.profile.service;
 import dding.profile.dto.request.ProfileRequest;
 import dding.profile.dto.request.ProfileUpdateRequest;
 import dding.profile.dto.response.ProfileResponse;
+import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.entity.Profile;
 import dding.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,17 @@ public class ProfileService {
                 .introduction(profile.getIntroduction())
                 .totalPoint(profile.getTotalPoint())
                 .userLevel(profile.getUserLevel())
+                .build();
+    }
+
+    public ProfileSimpleResponse getSimpleProfile(String userId) {
+        Profile profile = profileRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("프로필이 존재하지 않습니다."));
+
+        return ProfileSimpleResponse.builder()
+                .userId(profile.getUserId())
+                .nickname(profile.getNickname())
+                .profileImageUrl(profile.getProfileImageUrl())
                 .build();
     }
 

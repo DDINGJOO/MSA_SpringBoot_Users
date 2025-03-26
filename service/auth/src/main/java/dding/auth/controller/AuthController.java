@@ -50,12 +50,6 @@ public class AuthController {
             ));
         }
 
-        if (authService.checkNicknameDuplicate(joinRequest.getNickname())) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "message", "이미 사용 중인 닉네임입니다."
-            ));
-        }
 
         authService.join2(joinRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
@@ -88,6 +82,7 @@ public class AuthController {
         result.put("refreshToken", refreshToken);
         result.put("expiresIn", accessTokenExpireMs / 1000); // 초 단위
         result.put("loginId", user.getLoginId());
+        result.put("userId", user.getId());
         result.put("nickname", user.getNickname());
         result.put("role", user.getRole().name());
 
@@ -208,4 +203,8 @@ public class AuthController {
                 "message", "로그아웃 완료"
         ));
     }
+
+
+
+
 }

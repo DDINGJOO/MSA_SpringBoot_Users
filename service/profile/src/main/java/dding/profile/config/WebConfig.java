@@ -1,4 +1,4 @@
-package dding.auth.config;
+package dding.profile.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

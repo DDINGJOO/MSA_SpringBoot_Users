@@ -39,3 +39,6 @@ out/
 ##env
 .env.properties
 resources/dding/auth/config/.env.properties
+
+service/auth/src/main/resources/application.yaml
+service/profile/src/main/resources/application.yaml

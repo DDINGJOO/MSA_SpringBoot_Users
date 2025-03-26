@@ -1,6 +1,7 @@
 package dding.auth.service;
 
 
+import dding.auth.auth.UserRole;
 import dding.auth.dto.request.JoinRequest;
 import dding.auth.dto.request.LoginRequest;
 import dding.auth.entity.Auth;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pk.ULID;
 
 import java.util.Optional;
 
@@ -102,6 +104,34 @@ public class AuthService {
         if(optionalUser.isEmpty()) return null;
 
         return optionalUser.get();
+    }
+
+
+    public Boolean checkFirst( String provider, String providerId)
+    {
+       return   authRepository.existsByProviderAndProviderId(provider,providerId);
+    }
+
+
+    public Auth getAuthByProviderProviderId(String provider, String providerId)
+    {
+        return authRepository.findByProviderAndProviderId(provider,providerId).orElseThrow();
+    }
+
+
+    public Auth signupSocial( String provider, String providerId)
+    {
+        return authRepository.save(
+             Auth.builder()
+                     .id(new ULID().generatedKey())
+                     .loginId(providerId+"kakao")
+                     .password(providerId+"kakao")
+                     .nickname(provider+'_'+providerId)
+                     .role(UserRole.USER)
+                     .provider(provider)
+                     .providerId(providerId)
+                     .build()
+        );
     }
 
 
