@@ -2,16 +2,14 @@ package dding.profile.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_profile")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,7 +19,6 @@ public class Profile {
     private String userId; // FK - users.id
 
     private String nickname;
-
     private String email;
 
     private String phone;
@@ -37,6 +34,8 @@ public class Profile {
     @Column(length = 1000)
     private String introduction; // 자기소개
 
+    private boolean snsAgree;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -45,16 +44,17 @@ public class Profile {
     private Integer totalPoint;
     private Integer userLevel;
 
-    public void update(String nickname, String email, String phone, Long addressId,
-                       String profileImageUrl, String preferred1, String preferred2, String introduction) {
 
-        this.addressId = addressId;
-        this.nickname = nickname;
-        this.email =email;
-        this.phone = phone;
-        this.introduction = introduction;
-        this.preferred1 = preferred1;
-        this.preferred2 = preferred2;
+    public void SimpleProfile(String nickname, String preferred1, String preferred2, String profileImageUrl,
+                              String phone, String introduction, boolean snsAgree)
+    {
         this.profileImageUrl = profileImageUrl;
+        this.preferred2  = preferred2;
+        this.preferred1 = preferred1;
+        this.introduction = introduction;
+        this.phone = phone;
+        this.nickname = nickname;
+        this.snsAgree = snsAgree;
     }
+
 }

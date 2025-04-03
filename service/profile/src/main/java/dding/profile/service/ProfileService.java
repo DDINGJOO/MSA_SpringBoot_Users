@@ -2,13 +2,17 @@ package dding.profile.service;
 
 
 import dding.profile.dto.request.ProfileRequest;
-import dding.profile.dto.request.ProfileUpdateRequest;
+import dding.profile.dto.request.SimpleProfileRequest;
+import dding.profile.dto.request.SimpleUpdateRequest;
 import dding.profile.dto.response.ProfileResponse;
 import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.entity.Profile;
+import dding.profile.execption.ProfileNotFoundException;
 import dding.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -17,8 +21,13 @@ import java.time.LocalDateTime;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
+    public boolean DuplimentedNicknam(String nickname)
+    {
+        return profileRepository.existsByNickname(nickname);
+    }
 
-    public void createProfile(ProfileRequest request) {
+    @Transactional
+    public void createSimpleProfile(ProfileRequest request) {
         if (profileRepository.existsById(request.getUserId())) {
             throw new IllegalArgumentException("이미 프로필이 존재합니다.");
         }
@@ -26,13 +35,10 @@ public class ProfileService {
         Profile profile = Profile.builder()
                 .userId(request.getUserId())
                 .nickname(request.getNickname())
-                .email(request.getEmail())
                 .phone(request.getPhone())
-                .addressId(request.getAddressId())
                 .profileImageUrl(request.getProfileImageUrl())
                 .preferred1(request.getPreferred1())
                 .preferred2(request.getPreferred2())
-                .introduction(request.getIntroduction())
                 .totalPoint(0)
                 .userLevel(1)
                 .createdAt(LocalDateTime.now())
@@ -44,7 +50,7 @@ public class ProfileService {
 
     public ProfileResponse getProfile(String userId) {
         Profile profile = profileRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("프로필이 존재하지 않습니다."));
+                .orElseThrow(()  -> new ProfileNotFoundException(userId));
 
         return ProfileResponse.builder()
                 .userId(profile.getUserId())
@@ -63,7 +69,7 @@ public class ProfileService {
 
     public ProfileSimpleResponse getSimpleProfile(String userId) {
         Profile profile = profileRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("프로필이 존재하지 않습니다."));
+                .orElseThrow(() -> new ProfileNotFoundException(userId));
 
         return ProfileSimpleResponse.builder()
                 .userId(profile.getUserId())
@@ -72,22 +78,28 @@ public class ProfileService {
                 .build();
     }
 
-    public void updateProfile(String userId, ProfileUpdateRequest request) {
+    @Transactional
+    public void updateProfile(String userId, SimpleUpdateRequest request)  {
         Profile profile = profileRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("프로필이 존재하지 않습니다."));
+                .orElseThrow();
 
-        profile.update(
-                request.getNickname(),
-                request.getEmail(),
-                request.getPhone(),
-                request.getAddressId(),
-                request.getProfileImageUrl(),
-                request.getPreferred1(),
-                request.getPreferred2(),
-                request.getIntroduction()
-        );
+        System.out.println("🔥 [업데이트 진입] request.nickname = " + request.getNickname());
+        System.out.println("🔥 기존 nickname = " + profile.getNickname());
+
+        profile.setNickname(request.getNickname());
+        profile.setPhone(request.getPhone());
+        profile.setPreferred1(request.getPreferred1());
+        profile.setPreferred2(request.getPreferred2());
+        profile.setProfileImageUrl(request.getProfileImageUrl());
+        profile.setIntroduction(request.getIntroduction());
+        profile.setSnsAgree(request.isSNS_agree());
+
+        System.out.println("✅ 업데이트 요청 완료");
+
+        // profileRepository.save(profile); // @Transactional이면 생략 가능
     }
 
+    @Transactional
     public void deleteProfile(String userId) {
         profileRepository.deleteById(userId);
     }

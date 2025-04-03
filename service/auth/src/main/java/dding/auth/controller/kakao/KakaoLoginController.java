@@ -27,8 +27,8 @@ public class KakaoLoginController {
     private final AuthService authService;
     private final JwtRedisService jwtRedisService;
 
-    @Value("${JWT_KEY}")
-    private String secretKey;
+
+    private String secretKey="MY-123123";
 
     // 유효시간 (단위: ms)
     private final long accessTokenExpireMs = 1000L * 60 * 30;       //30분
@@ -71,7 +71,6 @@ public class KakaoLoginController {
         result.put("refreshToken", myRefreshToken);
         result.put("expiresIn", accessTokenExpireMs / 1000); // 초 단위
         result.put("loginId", user.getLoginId());
-        result.put("nickname", user.getNickname());
         result.put("userId", user.getId());
         result.put("role", user.getRole().name());
 

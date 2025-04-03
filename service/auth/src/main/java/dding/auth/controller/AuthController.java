@@ -24,8 +24,8 @@ public class AuthController {
     private final AuthService authService;
     private final JwtRedisService jwtRedisService;
 
-    @Value("${JWT_KEY}")
-    private String secretKey;
+
+    private String secretKey ="MY-123123";
 
     // 유효시간 (단위: ms)
     private final long accessTokenExpireMs = 1000L * 60 * 60;       // 1시간
@@ -49,6 +49,7 @@ public class AuthController {
                     "message", "이미 사용 중인 로그인 ID입니다."
             ));
         }
+
 
 
         authService.join2(joinRequest);

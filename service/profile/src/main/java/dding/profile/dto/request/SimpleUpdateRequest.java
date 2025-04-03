@@ -1,28 +1,21 @@
 package dding.profile.dto.request;
 
-
-import dding.profile.entity.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileRequest {
-    private String userId;
+public class SimpleUpdateRequest {
     private String nickname;
-    private String email;
     private String phone;
-    private Long addressId;
+
     private String profileImageUrl;
     private String preferred1;
     private String preferred2;
     private String introduction;
-
-
-    private Boolean SNS_agree;
-
+    private boolean SNS_agree;
 }

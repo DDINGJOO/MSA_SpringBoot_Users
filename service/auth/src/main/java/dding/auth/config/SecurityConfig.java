@@ -19,8 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
     private final AuthService authService; // UserService
-    @Value("${JWT_KEY}")
-    private String secretKey;
+    private String secretKey = "MY-123123";
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(authService, secretKey);

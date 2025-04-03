@@ -1,13 +1,14 @@
 CREATE TABLE user_profile (
-                              user_id VARCHAR(26) PRIMARY KEY,         -- FK to users.id (ULID/UUID 등 가능)
+                              user_id VARCHAR(26) PRIMARY KEY,
                               nickname VARCHAR(100) NOT NULL,
                               email VARCHAR(150),
                               phone VARCHAR(20),
-                              address_id BIGINT,                       -- FK to address.id (Address 모듈 연동)
+                              address_id BIGINT,
                               profile_image_url TEXT,
                               preferred1 VARCHAR(50),
                               preferred2 VARCHAR(50),
                               introduction TEXT,
+                              sns_agree BOOLEAN DEFAULT FALSE,
                               total_point INT DEFAULT 0,
                               user_level INT DEFAULT 1,
                               created_at DATETIME NOT NULL,
