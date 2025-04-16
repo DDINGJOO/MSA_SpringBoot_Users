@@ -2,17 +2,23 @@ package dding.profile.service;
 
 
 import dding.profile.dto.request.ProfileRequest;
-import dding.profile.dto.request.SimpleProfileRequest;
+
 import dding.profile.dto.request.SimpleUpdateRequest;
+import dding.profile.dto.request.UserSearchRequest;
 import dding.profile.dto.response.ProfileResponse;
 import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.entity.Profile;
 import dding.profile.execption.ProfileNotFoundException;
 import dding.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDateTime;
 
@@ -57,7 +63,7 @@ public class ProfileService {
                 .nickname(profile.getNickname())
                 .email(profile.getEmail())
                 .phone(profile.getPhone())
-                .addressId(profile.getAddressId())
+                .city(profile.getCity())
                 .profileImageUrl(profile.getProfileImageUrl())
                 .preferred1(profile.getPreferred1())
                 .preferred2(profile.getPreferred2())
@@ -83,8 +89,8 @@ public class ProfileService {
         Profile profile = profileRepository.findById(userId)
                 .orElseThrow();
 
-        System.out.println("🔥 [업데이트 진입] request.nickname = " + request.getNickname());
-        System.out.println("🔥 기존 nickname = " + profile.getNickname());
+        System.out.println(" [업데이트 진입] request.nickname = " + request.getNickname());
+        System.out.println(" 기존 nickname = " + profile.getNickname());
 
         profile.setNickname(request.getNickname());
         profile.setPhone(request.getPhone());
@@ -94,13 +100,33 @@ public class ProfileService {
         profile.setIntroduction(request.getIntroduction());
         profile.setSnsAgree(request.isSNS_agree());
 
-        System.out.println("✅ 업데이트 요청 완료");
+        System.out.println(" 업데이트 요청 완료");
 
-        // profileRepository.save(profile); // @Transactional이면 생략 가능
+
     }
 
     @Transactional
     public void deleteProfile(String userId) {
         profileRepository.deleteById(userId);
+    }
+
+
+    public Page<ProfileSimpleResponse> searchUsers(UserSearchRequest request) {
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+
+        Page<Profile> page = profileRepository.findByConditions(
+                request.getNickname(),
+                request.getPreferred1(),
+                request.getPreferred2(),
+                pageable
+        );
+
+        return page.map(p -> ProfileSimpleResponse.builder()
+                .userId(p.getUserId())
+                .nickname(p.getNickname())
+                .profileImageUrl(p.getProfileImageUrl())
+                .preferred1(p.getPreferred1())
+                .preferred2(p.getPreferred2())
+                .build());
     }
 }

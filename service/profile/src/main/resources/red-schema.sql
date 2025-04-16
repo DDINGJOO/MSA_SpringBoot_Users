@@ -6,6 +6,7 @@ CREATE TABLE user_profile (
                               address_id BIGINT,
                               profile_image_url TEXT,
                               preferred1 VARCHAR(50),
+    city VARCHAR(50),
                               preferred2 VARCHAR(50),
                               introduction TEXT,
                               sns_agree BOOLEAN DEFAULT FALSE,

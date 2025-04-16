@@ -2,11 +2,14 @@ package dding.profile.controller;
 
 import dding.profile.dto.request.ProfileRequest;
 import dding.profile.dto.request.SimpleUpdateRequest;
+import dding.profile.dto.request.UserSearchRequest;
 import dding.profile.dto.response.ProfileResponse;
 import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.service.ProfileService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,7 @@ import java.util.Map;
 public class ProfileController {
 
     private final ProfileService profileService;
-    @GetMapping("simple/{userId}")
+    @GetMapping("/simple/{userId}")
     public ResponseEntity<ProfileSimpleResponse> getSimpleProfile(@PathVariable String userId) {
         ProfileSimpleResponse response = profileService.getSimpleProfile(userId);
         return ResponseEntity.ok(response);
@@ -72,4 +75,21 @@ public class ProfileController {
         profileService.deleteProfile(userId);
         return ResponseEntity.ok("프로필이 삭제되었습니다.");
     }
+
+
+
+    @GetMapping("/users")
+    //GET /api/users?nickname=딩&preferred1=Guitar&page=0&size=5
+    public ResponseEntity<Page<ProfileSimpleResponse>> searchUsers(
+            @RequestParam(required = false) String nickname,
+            @RequestParam(required = false) String preferred1,
+            @RequestParam(required = false) String preferred2,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        UserSearchRequest request = new UserSearchRequest(nickname, preferred1, preferred2, page, size);
+        return ResponseEntity.ok(profileService.searchUsers(request));
+    }
+
 }
+

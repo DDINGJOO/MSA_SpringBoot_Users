@@ -1,14 +1,13 @@
 server:
-  port: 9101
+  port: 9102
   address: 0.0.0.0
 
 spring:
-  config:
-    additional-location: file:./.env.properties
+
 
 
   application:
-    name: dding-user-profile-service
+    name: dding-user-review-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://host.docker.internal:3306/auth

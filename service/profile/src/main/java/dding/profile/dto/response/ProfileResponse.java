@@ -13,7 +13,7 @@ public class ProfileResponse {
     private String nickname;
     private String email;
     private String phone;
-    private Long addressId;
+    private String city;
     private String profileImageUrl;
     private String preferred1;
     private String preferred2;

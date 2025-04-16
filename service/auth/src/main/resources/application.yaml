@@ -10,9 +10,9 @@ spring:
       name: dding-user-auth-service
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/auth
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
+      url: jdbc:mysql://host.docker.internal:3306/auth
+      username: root
+      password: 1001
   jpa:
       database-platform: org.hibernate.dialect.MySQLDialect
       open-in-view: false
@@ -22,7 +22,7 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: dding-board-redis
       port: 6379
 
 

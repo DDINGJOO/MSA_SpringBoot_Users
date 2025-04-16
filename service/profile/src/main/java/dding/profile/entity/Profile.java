@@ -23,7 +23,7 @@ public class Profile {
 
     private String phone;
 
-    private Long addressId; // FK - address.id (Address 모듈 연동)
+    private String City;
 
     private String profileImageUrl; // FileUpload 모듈에서 받은 이미지 URL
 
