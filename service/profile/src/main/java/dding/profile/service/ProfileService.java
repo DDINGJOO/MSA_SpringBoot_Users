@@ -3,8 +3,9 @@ package dding.profile.service;
 
 import dding.profile.dto.request.ProfileRequest;
 
-import dding.profile.dto.request.SimpleUpdateRequest;
+import dding.profile.dto.request.ProfileUpDateRequest;
 import dding.profile.dto.request.UserSearchRequest;
+import dding.profile.dto.response.ProfileReadResponse;
 import dding.profile.dto.response.ProfileResponse;
 import dding.profile.dto.response.ProfileSimpleResponse;
 import dding.profile.entity.Profile;
@@ -38,18 +39,7 @@ public class ProfileService {
             throw new IllegalArgumentException("이미 프로필이 존재합니다.");
         }
 
-        Profile profile = Profile.builder()
-                .userId(request.getUserId())
-                .nickname(request.getNickname())
-                .phone(request.getPhone())
-                .profileImageUrl(request.getProfileImageUrl())
-                .preferred1(request.getPreferred1())
-                .preferred2(request.getPreferred2())
-                .totalPoint(0)
-                .userLevel(1)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        Profile profile = ProfileRequest.toEntity(request);
 
         profileRepository.save(profile);
     }
@@ -58,49 +48,55 @@ public class ProfileService {
         Profile profile = profileRepository.findById(userId)
                 .orElseThrow(()  -> new ProfileNotFoundException(userId));
 
-        return ProfileResponse.builder()
-                .userId(profile.getUserId())
-                .nickname(profile.getNickname())
-                .email(profile.getEmail())
-                .phone(profile.getPhone())
-                .city(profile.getCity())
-                .profileImageUrl(profile.getProfileImageUrl())
-                .preferred1(profile.getPreferred1())
-                .preferred2(profile.getPreferred2())
-                .introduction(profile.getIntroduction())
-                .totalPoint(profile.getTotalPoint())
-                .userLevel(profile.getUserLevel())
-                .build();
+        return ProfileResponse.fromEntity(profile);
+    }
+
+
+    public ProfileReadResponse readProfile(String userId) {
+        Profile profile = profileRepository.findById(userId)
+                .orElseThrow(()  -> new ProfileNotFoundException(userId));
+
+        return ProfileReadResponse.fromEntity(profile);
     }
 
     public ProfileSimpleResponse getSimpleProfile(String userId) {
         Profile profile = profileRepository.findById(userId)
                 .orElseThrow(() -> new ProfileNotFoundException(userId));
 
-        return ProfileSimpleResponse.builder()
-                .userId(profile.getUserId())
-                .nickname(profile.getNickname())
-                .profileImageUrl(profile.getProfileImageUrl())
-                .build();
+        return ProfileSimpleResponse.fromEntity(profile);
     }
 
     @Transactional
-    public void updateProfile(String userId, SimpleUpdateRequest request)  {
+    public void updateProfile(String userId, ProfileUpDateRequest request)  {
         Profile profile = profileRepository.findById(userId)
                 .orElseThrow();
+        if(!(request.getNickname().equals(profile.getNickname())) && profileRepository.existsByNickname(request.getNickname()))
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        if(request.getNickname() == null || request.getNickname().isEmpty())
+            throw new IllegalArgumentException("닉네임을 입력해주세요.");
+        if(request.getCity() == null || request.getCity().isEmpty())
+            throw new IllegalArgumentException("도시를 입력해주세요.");
+        if(request.getPreferred1() == null || request.getPreferred1().isEmpty())
+            throw new IllegalArgumentException("선호1을 입력해주세요.");
+        if(request.getPreferred2() == null || request.getPreferred2().isEmpty())
+            throw new IllegalArgumentException("선호2을 입력해주세요.");
+        if(request.getIntroduction() == null || request.getIntroduction().isEmpty())
+            throw new IllegalArgumentException("자기소개를 입력해주세요.");
+        if(request.getIntroduction().length() > 100)
+            throw new IllegalArgumentException("자기소개는 100자 이내로 작성해주세요.");
+        if(request.getPreferred1().length() > 10)
+            throw new IllegalArgumentException("선호1은 10자 이내로 작성해주세요.");
+        if(request.getPreferred2().length() > 10)
+            throw new IllegalArgumentException("선호2은 10자 이내로 작성해주세요.");
+        if(request.getNickname().length() > 10)
+            throw new IllegalArgumentException("닉네임은 10자 이내로 작성해주세요.");
+        if(request.getCity().length() > 10)
+            throw new IllegalArgumentException("도시는 10자 이내로 작성해주세요.");
+        if(request.getIntroduction().length() > 100)
+            throw new IllegalArgumentException("자기소개는 100자 이내로 작성해주세요.");
 
-        System.out.println(" [업데이트 진입] request.nickname = " + request.getNickname());
-        System.out.println(" 기존 nickname = " + profile.getNickname());
 
-        profile.setNickname(request.getNickname());
-        profile.setPhone(request.getPhone());
-        profile.setPreferred1(request.getPreferred1());
-        profile.setPreferred2(request.getPreferred2());
-        profile.setProfileImageUrl(request.getProfileImageUrl());
-        profile.setIntroduction(request.getIntroduction());
-        profile.setSnsAgree(request.isSNS_agree());
-
-        System.out.println(" 업데이트 요청 완료");
+        profileRepository.save(ProfileUpDateRequest.ToEntity(request,profile));
 
 
     }
@@ -124,7 +120,6 @@ public class ProfileService {
         return page.map(p -> ProfileSimpleResponse.builder()
                 .userId(p.getUserId())
                 .nickname(p.getNickname())
-                .profileImageUrl(p.getProfileImageUrl())
                 .preferred1(p.getPreferred1())
                 .preferred2(p.getPreferred2())
                 .build());

@@ -9,30 +9,20 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProfileResponse {
-    private String userId;
+public class ProfileReadResponse {
     private String nickname;
-    private String email;
-    private String phone;
     private String city;
     private String preferred1;
     private String preferred2;
     private String introduction;
-    private Integer totalPoint;
-    private Integer userLevel;
 
-    public static ProfileResponse fromEntity(Profile profile) {
-        return ProfileResponse.builder()
-                .userId(profile.getUserId())
+    public static ProfileReadResponse fromEntity(Profile profile) {
+        return ProfileReadResponse.builder()
                 .nickname(profile.getNickname())
-                .email(profile.getEmail())
-                .phone(profile.getPhone())
                 .city(profile.getCity())
                 .preferred1(profile.getPreferred1())
                 .preferred2(profile.getPreferred2())
                 .introduction(profile.getIntroduction())
-                .totalPoint(profile.getTotalPoint())
-                .userLevel(profile.getUserLevel())
                 .build();
     }
 }

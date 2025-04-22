@@ -20,7 +20,7 @@ public class MarkerSimpleResponseDto {
 
 
 
-    public static MarkerSimpleResponseDto of(Markers post) {
+    public static MarkerSimpleResponseDto fromEntity(Markers post) {
         return MarkerSimpleResponseDto.builder()
                 .postId(post.getId())
                 .title(post.getTitle())

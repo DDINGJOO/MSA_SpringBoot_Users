@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
+import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileRequest {
@@ -17,12 +19,27 @@ public class ProfileRequest {
     private String email;
     private String phone;
     private String city;
-    private String profileImageUrl;
     private String preferred1;
     private String preferred2;
     private String introduction;
 
 
     private Boolean SNS_agree;
+
+    public static Profile toEntity(ProfileRequest profileRequest) {
+        return Profile.builder()
+                .userId(profileRequest.getUserId())
+                .nickname(profileRequest.getNickname())
+                .email(profileRequest.getEmail())
+                .phone(profileRequest.getPhone())
+                .City(profileRequest.getCity())
+                .preferred1(profileRequest.getPreferred1())
+                .preferred2(profileRequest.getPreferred2())
+                .introduction(profileRequest.getIntroduction())
+                .snsAgree(profileRequest.getSNS_agree())
+                .updatedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 
 }

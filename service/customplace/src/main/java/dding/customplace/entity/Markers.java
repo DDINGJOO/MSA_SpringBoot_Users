@@ -38,4 +38,7 @@ public class Markers {
 
     private int score;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
 }

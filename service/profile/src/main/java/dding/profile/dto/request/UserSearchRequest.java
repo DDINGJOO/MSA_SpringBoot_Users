@@ -1,12 +1,10 @@
 package dding.profile.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@Setter
 public class UserSearchRequest {
     private String nickname;
     private String preferred1;

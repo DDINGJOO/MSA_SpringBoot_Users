@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -23,7 +22,7 @@ public class MarkerResponseDto {
 
 
 
-    public static MarkerResponseDto of(Markers post) {
+    public static MarkerResponseDto fromEntity(Markers post) {
         return MarkerResponseDto.builder()
                 .postId(post.getId())
                 .title(post.getTitle())
@@ -34,7 +33,6 @@ public class MarkerResponseDto {
                 .longitude(post.getLongitude())
                 .color(post.getColor())
                 .score(post.getScore())
-
                 .build();
     }
 }

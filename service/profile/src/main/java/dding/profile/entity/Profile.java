@@ -25,7 +25,6 @@ public class Profile {
 
     private String City;
 
-    private String profileImageUrl; // FileUpload 모듈에서 받은 이미지 URL
 
     private String preferred1; // 선호 1 (가장 잘하는 기량 등)
 
@@ -44,17 +43,11 @@ public class Profile {
     private Integer totalPoint;
     private Integer userLevel;
 
-
-    public void SimpleProfile(String nickname, String preferred1, String preferred2, String profileImageUrl,
-                              String phone, String introduction, boolean snsAgree)
-    {
-        this.profileImageUrl = profileImageUrl;
-        this.preferred2  = preferred2;
-        this.preferred1 = preferred1;
-        this.introduction = introduction;
-        this.phone = phone;
-        this.nickname = nickname;
-        this.snsAgree = snsAgree;
+    public boolean isSnsAgree() {
+        return snsAgree;
     }
+
+
+
 
 }
