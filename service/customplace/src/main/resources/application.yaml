@@ -10,7 +10,7 @@ spring:
     name: dding-user-review-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://host.docker.internal:3306/auth
+    url: jdbc:mysql://host.docker.internal:3306/customplace
     username: root
     password: 1001
   jpa:
@@ -18,4 +18,4 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update

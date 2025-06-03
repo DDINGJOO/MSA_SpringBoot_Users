@@ -32,7 +32,7 @@ public class AuthController {
     private final long refreshTokenExpireMs = 1000L * 60 * 60 * 24; // 24시간
 
     /**
-     * ✅회원가입
+     *
      */
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody JoinRequest joinRequest) {

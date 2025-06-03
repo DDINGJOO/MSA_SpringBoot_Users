@@ -11,8 +11,8 @@ spring:
     name: dding-user-profile-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://localhost:3306/auth
-    url1: jdbc:mysql://host.docker.internal:3306/auth
+    url1 : jdbc:mysql://localhost:3306/auth
+    url: jdbc:mysql://host.docker.internal:3306/auth
     username: root
     password: 1001
   jpa:
@@ -20,4 +20,4 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update

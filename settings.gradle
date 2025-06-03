@@ -5,6 +5,8 @@ include 'service'
 include 'service:auth'
 include 'service:profile'
 include 'service:customplace'
+include 'service:band'
+
 
 include 'public'
 include 'public:pk'

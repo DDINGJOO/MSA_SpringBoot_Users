@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:9100}
+  port: 9100
   address: 0.0.0.0
 spring:
   config:
@@ -18,7 +18,7 @@ spring:
       open-in-view: false
       show-sql: true
       hibernate:
-        ddl-auto: none
+        ddl-auto: update
 
   data:
     redis:
@@ -31,4 +31,4 @@ spring:
 kakao:
   client_id: 70ed7355473badad5a2e4bfac8e95bc6
   redirect_uri_mobile: http://10.0.2.2:9100/kakao/callback
-  redirect_uri_pc: http://192.168.200.104:9100/kakao/callback
+  redirect_uri_pc: http://192.168.200.101:9100/kakao/callback

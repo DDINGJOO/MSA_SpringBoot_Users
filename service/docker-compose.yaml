@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   redis:
-    image: redis:7.4
     container_name: dding-board-redis
+    image: redis:7.4
     ports:
       - "6379:6379"
 
@@ -11,24 +11,27 @@ services:
     build:
       context: ./auth
       dockerfile: Dockerfile
+    container_name: auth-service
     ports:
       - "9100:9100"
-
     depends_on:
-      - redis
+      - dding-board-redis
     environment:
-      SPRING_REDIS_HOST: dding-board-redis
+      - SPRING_REDIS_HOST=dding-board-redis    # ← 서비스 이름(redis) 사용
+      - SPRING_REDIS_PORT=6379
 
   profile-service:
     build:
-        context: ./profile
-        dockerfile: Dockerfile
+      context: ./profile
+      dockerfile: Dockerfile
+    container_name: profile-service
     ports:
-        - "9101:9101"
+      - "9101:9101"
 
   review-service:
     build:
       context: ./customplace
       dockerfile: Dockerfile
+    container_name: review-service
     ports:
       - "9102:9102"
